@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/ponzu-cms/ponzu/system/db"
+	"github.com/monstrum/ponzu-cms/system/db"
 )
 
 // Gzip wraps a HandlerFunc to compress responses when possible

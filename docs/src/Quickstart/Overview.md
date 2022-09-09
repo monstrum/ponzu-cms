@@ -3,7 +3,7 @@
 
 2) Install Ponzu CLI:
 ```bash
-$ go get github.com/ponzu-cms/ponzu/…
+$ go get github.com/monstrum/ponzu-cms/…
 ```
 
 3) Create a new project (path is created in your GOPATH):

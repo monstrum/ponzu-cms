@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/ponzu-cms/ponzu/system/db"
-	"github.com/ponzu-cms/ponzu/system/item"
+	"github.com/monstrum/ponzu-cms/system/db"
+	"github.com/monstrum/ponzu-cms/system/item"
 )
 
 // Deleteable accepts or rejects update POST requests to endpoints such as:

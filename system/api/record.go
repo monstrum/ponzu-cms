@@ -3,7 +3,7 @@ package api
 import (
 	"net/http"
 
-	"github.com/ponzu-cms/ponzu/system/api/analytics"
+	"github.com/monstrum/ponzu-cms/system/api/analytics"
 )
 
 // Record wraps a HandlerFunc to record API requests for analytical purposes

@@ -15,7 +15,7 @@ var upgradeCmd = &cobra.Command{
 	Short: "upgrades your project to the current ponzu version",
 	Long: `Will backup your own custom project code (like content, addons, uploads, etc)
 if necessary. Before running '$ ponzu upgrade', you should update the 'ponzu'
-package by running '$ go get -u github.com/ponzu-cms/ponzu/...'`,
+package by running '$ go get -u github.com/monstrum/ponzu-cms/...'`,
 	Example: `$ ponzu upgrade`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// confirm since upgrade will replace Ponzu core files

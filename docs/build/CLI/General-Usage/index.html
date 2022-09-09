@@ -120,7 +120,7 @@
   
 
 
-  <a href="https://github.com/ponzu-cms/ponzu" title="Go to repository" class="md-source" data-md-source="github">
+  <a href="https://github.com/monstrum/ponzu-cms" title="Go to repository" class="md-source" data-md-source="github">
     
       <div class="md-source__icon">
         <svg viewBox="0 0 24 24" width="24" height="24">
@@ -129,7 +129,7 @@
       </div>
     
     <div class="md-source__repository">
-      ponzu-cms/ponzu
+      monstrum/ponzu-cms
     </div>
   </a>
 
@@ -167,7 +167,7 @@
   
 
 
-  <a href="https://github.com/ponzu-cms/ponzu" title="Go to repository" class="md-source" data-md-source="github">
+  <a href="https://github.com/monstrum/ponzu-cms" title="Go to repository" class="md-source" data-md-source="github">
     
       <div class="md-source__icon">
         <svg viewBox="0 0 24 24" width="24" height="24">
@@ -176,7 +176,7 @@
       </div>
     
     <div class="md-source__repository">
-      ponzu-cms/ponzu
+      monstrum/ponzu-cms
     </div>
   </a>
 
@@ -922,7 +922,7 @@
 following the 'new' option in the $GOPATH/src directory. Note: 'new' depends on 
 the program 'git' and possibly a network connection. If there is no local 
 repository to clone from at the local machine's $GOPATH, 'new' will attempt to 
-clone the 'github.com/ponzu-cms/ponzu' package from over the network.</p>
+clone the 'github.com/monstrum/ponzu-cms' package from over the network.</p>
 <p>Example:</p>
 <div class="codehilite"><pre><span></span>$ ponzu new github.com/nilslice/proj
 &gt; New ponzu project created at <span class="nv">$GOPATH</span>/src/github.com/nilslice/proj
@@ -1083,7 +1083,7 @@ to run the Admin and API on separate processes, you must call them with the
 <p>Will backup your own custom project code (like content, addons, uploads, etc) so
 we can safely re-clone Ponzu from the latest version you have or from the network 
 if necessary. Before running <code>$ ponzu upgrade</code>, you should update the <code>ponzu</code>
-package by running <code>$ go get -u github.com/ponzu-cms/ponzu/...</code> </p>
+package by running <code>$ go get -u github.com/monstrum/ponzu-cms/...</code> </p>
 <p>Example:</p>
 <div class="codehilite"><pre><span></span>$ ponzu upgrade
 </pre></div>
@@ -1135,11 +1135,11 @@ branch, not master by default (i.e. <code>$ponzu new --dev /path/to/code</code>)
 </ol>
 <p><em>A typical contribution workflow might look like:</em></p>
 <div class="codehilite"><pre><span></span><span class="c1"># clone the repository and checkout ponzu-dev</span>
-$ git clone https://github.com/ponzu-cms/ponzu path/to/local/ponzu <span class="c1"># (or your fork)</span>
+$ git clone https://github.com/monstrum/ponzu-cms path/to/local/ponzu <span class="c1"># (or your fork)</span>
 $ git checkout ponzu-dev
 
 <span class="c1"># install ponzu with go get or from your own local path</span>
-$ go get github.com/ponzu-cms/ponzu/...
+$ go get github.com/monstrum/ponzu-cms/...
 <span class="c1"># or</span>
 $ <span class="nb">cd</span> /path/to/local/ponzu 
 $ go install ./...
@@ -1155,9 +1155,9 @@ $ ponzu --dev new /path/to/new/project <span class="c1"># will create $GOPATH/sr
 $ <span class="nb">cd</span> /path/to/new/project
 $ ponzu build <span class="o">&amp;&amp;</span> ponzu run
 
-<span class="c1"># push to your origin:ponzu-dev branch and create a PR at ponzu-cms/ponzu</span>
+<span class="c1"># push to your origin:ponzu-dev branch and create a PR at monstrum/ponzu-cms</span>
 $ git push origin ponzu-dev
-<span class="c1"># ... go to https://github.com/ponzu-cms/ponzu and create a PR</span>
+<span class="c1"># ... go to https://github.com/monstrum/ponzu-cms and create a PR</span>
 </pre></div>
 
 

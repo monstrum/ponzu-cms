@@ -8,7 +8,7 @@ components inside and outside of Ponzu.
 
 ## Interfaces
 
-### [item.Pushable](https://godoc.org/github.com/ponzu-cms/ponzu/system/item#Pushable)
+### [item.Pushable](https://godoc.org/github.com/monstrum/ponzu-cms/system/item#Pushable)
 Pushable, if [HTTP/2 Server Push](https://http2.github.io/http2-spec/#PushResources) 
 is supported by the client, can tell a handler which resources it would like to 
 have "pushed" preemptively to the client. This saves follow-on roundtrip requests 
@@ -48,7 +48,7 @@ func (p *Post) Push(res http.ResponseWriter, req *http.Request) ([]string, error
 
 ---
 
-### [item.Hideable](https://godoc.org/github.com/ponzu-cms/ponzu/system/item#Hideable)
+### [item.Hideable](https://godoc.org/github.com/monstrum/ponzu-cms/system/item#Hideable)
 Hideable tells an API handler that data of this type shouldn’t be exposed outside 
 the system. Hideable types cannot be used as references (relations in Content types).
 The `Hide` method, the only method in Hideable, takes an `http.ResponseWriter, *http.Request` 
@@ -72,7 +72,7 @@ func (p *Post) Hide(res http.ResponseWriter, req *http.Request) error {
 
 ---
 
-### [item.Omittable](https://godoc.org/github.com/ponzu-cms/ponzu/system/item#Omittable)
+### [item.Omittable](https://godoc.org/github.com/monstrum/ponzu-cms/system/item#Omittable)
 Omittable tells a content API handler to keep certain fields from being exposed 
 through the JSON response. It's single method, `Omit` takes no arguments and 
 returns a `[]string` which must be made up of the JSON struct tags for the type 
@@ -105,7 +105,7 @@ func (p *Post) Omit(res http.ResponseWriter, req *http.Request) ([]string, error
 
 ---
 
-### [item.Hookable](https://godoc.org/github.com/ponzu-cms/ponzu/system/item#Hookable)
+### [item.Hookable](https://godoc.org/github.com/monstrum/ponzu-cms/system/item#Hookable)
 Hookable provides lifecycle hooks into the http handlers which manage Save, Delete,
 Approve, Reject routines, and API response routines. All methods in its set take an 
 `http.ResponseWriter, *http.Request` and return an `error`. Hooks which relate to the API response, additionally take data of type `[]byte`, and may provide a return of the same type.
@@ -441,7 +441,7 @@ Hookable is implemented by Item by default as no-ops which are expected to be ov
 
 ---
 
-### [item.Identifiable](https://godoc.org/github.com/ponzu-cms/ponzu/system/item#Identifiable)
+### [item.Identifiable](https://godoc.org/github.com/monstrum/ponzu-cms/system/item#Identifiable)
 Identifiable enables a struct to have its ID set/get. Typically this is done to set an ID to -1 indicating it is new for DB inserts, since by default a newly initialized struct would have an ID of 0, the int zero-value, and BoltDB's starting key per bucket is 0, thus overwriting the first record.
 Most notable, Identifiable’s `String` method is used to set a meaningful display name for an Item. `String` is called by default in the Admin dashboard to show the Items of certain types, and in the default creation of an Item’s slug.
 Identifiable is implemented by Item by default.
@@ -481,7 +481,7 @@ func (i Item) String() string {
 ```
 ---
 
-### [item.Sluggable](https://godoc.org/github.com/ponzu-cms/ponzu/system/item#Sluggable)
+### [item.Sluggable](https://godoc.org/github.com/monstrum/ponzu-cms/system/item#Sluggable)
 Sluggable makes a struct locatable by URL with it's own path. As an Item implementing Sluggable, slugs may overlap. If this is an issue, make your content struct (or one which embeds Item) implement Sluggable and it will override the slug created by Item's `SetSlug` method with your own.
 It is not recommended to override `SetSlug`, but rather the `String` method on your content struct, which will have a similar, more predictable effect.
 Sluggable is implemented by Item by default.
@@ -514,7 +514,7 @@ func (i *Item) ItemSlug() string {
 ---
 
 
-### [item.Sortable](https://godoc.org/github.com/ponzu-cms/ponzu/system/item#Sortable)
+### [item.Sortable](https://godoc.org/github.com/monstrum/ponzu-cms/system/item#Sortable)
 Sortable enables items to be sorted by time, as per the sort.Interface interface. Sortable is implemented by Item by default.
 
 ##### Method Set

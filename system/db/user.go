@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/ponzu-cms/ponzu/system/admin/user"
+	"github.com/monstrum/ponzu-cms/system/admin/user"
 
 	"github.com/boltdb/bolt"
 	"github.com/nilslice/jwt"

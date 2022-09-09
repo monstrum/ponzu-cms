@@ -4,7 +4,7 @@ Ponzu provides a set of interfaces from the `system/search` package to enable an
 
 ## Interfaces
 
-### [search.Searchable](https://godoc.org/github.com/ponzu-cms/ponzu/system/search#Searchable)
+### [search.Searchable](https://godoc.org/github.com/monstrum/ponzu-cms/system/search#Searchable)
 Searchable determines how content is indexed and whether the system should index the content when it is created and updated or be removed from the index when content is deleted.
     
 !!! warning ""

@@ -35,7 +35,7 @@ Want to jump in right away? Try the [Quickstart](/Quickstart/Overview)
 ### Need help? Get in touch
 - Chat: [#ponzu on Slack](https://gophers.slack.com/messages/C3TBV356D)
 - Reach out on Twitter: [@ponzu_cms](https://twitter.com/ponzu_cms)
-- File an [issue](https://github.com/ponzu-cms/ponzu/issues)
+- File an [issue](https://github.com/monstrum/ponzu-cms/issues)
 
 ---
 current version: `v0.9.4` @ ponzu:master

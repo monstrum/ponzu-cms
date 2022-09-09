@@ -13,7 +13,7 @@ import (
 	"time"
 
 	"github.com/boltdb/bolt"
-	"github.com/ponzu-cms/ponzu/system/cfg"
+	"github.com/monstrum/ponzu-cms/system/cfg"
 )
 
 type apiRequest struct {
@@ -74,7 +74,7 @@ func Close() {
 // sets up the queue/batching channel
 func Init() {
 	var err error
-	analyticsDb := filepath.Join(cfg.DataDir(),"analytics.db")
+	analyticsDb := filepath.Join(cfg.DataDir(), "analytics.db")
 	store, err = bolt.Open(analyticsDb, 0666, nil)
 	if err != nil {
 		log.Fatalln(err)

@@ -8,7 +8,7 @@ the Admin interface.
 
 ## Interfaces
 
-### [format.CSVFormattable](https://godoc.org/github.com/ponzu-cms/ponzu/management/format#CSVFormattable)
+### [format.CSVFormattable](https://godoc.org/github.com/monstrum/ponzu-cms/management/format#CSVFormattable)
 
 CSVFormattable controls if an "Export" button is added to the contents view for 
 a Content type in the CMS to export the data to CSV. If it is implemented, a

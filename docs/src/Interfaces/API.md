@@ -13,7 +13,7 @@ life-cycle.
 
 ## Interfaces
 
-### [api.Createable](https://godoc.org/github.com/ponzu-cms/ponzu/system/api#Createable)
+### [api.Createable](https://godoc.org/github.com/monstrum/ponzu-cms/system/api#Createable)
 Externalable enables 3rd-party clients (outside the CMS) to send content via a 
 `multipart/form-data` encoded `POST` request to a specific endpoint: 
 `/api/content/create?type=<Type>`. When `api.Createable` is implemented, content 
@@ -42,7 +42,7 @@ func (p *Post) Create(res http.ResponseWriter, req *http.Request) error {
 
 ---
 
-### [api.Updateable](https://godoc.org/github.com/ponzu-cms/ponzu/system/api#Updateable)
+### [api.Updateable](https://godoc.org/github.com/monstrum/ponzu-cms/system/api#Updateable)
 Updateable enables 3rd-party clients (outside the CMS) to update existing content 
 via a `multipart/form-data` encoded `POST` request to a specific endpoint: 
 `/api/content/update?type=<Type>&id=<id>`. Request validation should be employed 
@@ -65,7 +65,7 @@ func (p *Post) Update(res http.ResponseWriter, req *http.Request) error {
 
 ---
 
-### [api.Deleteable](https://godoc.org/github.com/ponzu-cms/ponzu/system/api#Deleteable)
+### [api.Deleteable](https://godoc.org/github.com/monstrum/ponzu-cms/system/api#Deleteable)
 Updateable enables 3rd-party clients (outside the CMS) to delete existing content 
 via a `multipart/form-data` encoded `POST` request to a specific endpoint: 
 `/api/content/delete?type=<Type>&id=<id>`. Request validation should be employed 
@@ -88,7 +88,7 @@ func (p *Post) Delete(res http.ResponseWriter, req *http.Request) error {
 
 ---
 
-### [api.Trustable](https://godoc.org/github.com/ponzu-cms/ponzu/system/api#Trustable)
+### [api.Trustable](https://godoc.org/github.com/monstrum/ponzu-cms/system/api#Trustable)
 Trustable provides a way for submitted content (via `api.Createable`) to bypass 
 the `editor.Mergeable` step in which CMS end-users must manually click the 
 "Approve" button in order for content to be put in the "Public" section and access 

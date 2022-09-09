@@ -8,4 +8,4 @@ new pull request with the script inside a directory named by the corresponding
 init system.
 
 Questions? Reach out to [@ponzu_cms](https://twitter.com/ponzu_cms) on Twitter, 
-or open an issue at https://github.com/ponzu-cms/ponzu
+or open an issue at https://github.com/monstrum/ponzu-cms
