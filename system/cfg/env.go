@@ -42,7 +42,7 @@ func AdminStaticDir() string {
 func UploadDir() string {
 	uploadDir := os.Getenv("PONZU_UPLOAD_DIR")
 	if uploadDir == "" {
-		uploadDir = filepath.Join(DataDir(),"uploads")
+		uploadDir = filepath.Join(DataDir(), "uploads")
 	}
 	return uploadDir
 }
@@ -50,7 +50,7 @@ func UploadDir() string {
 func SearchDir() string {
 	searchDir := os.Getenv("PONZU_SEARCH_DIR")
 	if searchDir == "" {
-		searchDir = filepath.Join(DataDir(),"search")
+		searchDir = filepath.Join(DataDir(), "search")
 	}
 	return searchDir
 }

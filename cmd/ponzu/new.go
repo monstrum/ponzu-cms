@@ -34,13 +34,13 @@ over the network.`,
 	},
 }
 
-// name2path transforns a project name to an absolute path
+// name2path transforms a project name to an absolute path
 func name2path(projectName string) (string, error) {
 	gopath, err := getGOPATH()
 	if err != nil {
 		return "", err
 	}
-	gosrc := filepath.Join(gopath, "src")
+	srcGoPath := filepath.Join(gopath, "src")
 
 	path := projectName
 	// support current directory
@@ -50,18 +50,18 @@ func name2path(projectName string) (string, error) {
 			return "", err
 		}
 	} else {
-		path = filepath.Join(gosrc, path)
+		path = filepath.Join(srcGoPath, path)
 	}
 
 	// make sure path is inside $GOPATH/src
-	srcrel, err := filepath.Rel(gosrc, path)
+	srcPath, err := filepath.Rel(srcGoPath, path)
 	if err != nil {
 		return "", err
 	}
-	if len(srcrel) >= 2 && srcrel[:2] == ".." {
-		return "", fmt.Errorf("path '%s' must be inside '%s'", projectName, gosrc)
+	if len(srcPath) >= 2 && srcPath[:2] == ".." {
+		return "", fmt.Errorf("path '%s' must be inside '%s'", projectName, srcGoPath)
 	}
-	if srcrel == "." {
+	if srcPath == "." {
 		return "", fmt.Errorf("path '%s' must not be %s", path, filepath.Join("GOPATH", "src"))
 	}
 

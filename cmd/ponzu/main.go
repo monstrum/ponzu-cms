@@ -120,8 +120,8 @@ $ ponzu run --port=8888 api`,
 
 // ErrWrongOrMissingService informs a user that the services to run must be
 // explicitly specified when serve is called
-var ErrWrongOrMissingService = errors.New("To execute 'ponzu serve', " +
-	"you must specify which service to run.")
+var ErrWrongOrMissingService = errors.New("to execute 'ponzu serve', " +
+	"you must specify which service to run")
 
 var serveCmd = &cobra.Command{
 	Use:     "serve [flags] <service,service>",
