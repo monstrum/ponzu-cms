@@ -1,0 +1,12 @@
+{% extends 'admin.html.twig' %}
+
+{% block sub_content %}
+    <div class="error-page eMsg col s6">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-title"><b>Error:&nbsp;</b>{{ title }}</div>
+                <blockquote>{{ message }}</blockquote>
+            </div>
+        </div>
+    </div>
+{% endblock %}
