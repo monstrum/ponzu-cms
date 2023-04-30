@@ -6,6 +6,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"github.com/monstrum/ponzu-cms/system/twig"
 	"log"
 	"net/http"
 	"strconv"
@@ -31,7 +32,11 @@ import (
 	"github.com/tidwall/gjson"
 )
 
-func adminHandler(res http.ResponseWriter, req *http.Request) {
+func resWrite(res http.ResponseWriter, view []byte) {
+	_, _ = res.Write(view)
+}
+
+func adminHandler(res http.ResponseWriter, _ *http.Request) {
 	view, err := Dashboard()
 	if err != nil {
 		log.Println(err)
@@ -40,7 +45,7 @@ func adminHandler(res http.ResponseWriter, req *http.Request) {
 	}
 
 	res.Header().Set("Content-Type", "text/html")
-	res.Write(view)
+	resWrite(res, view)
 }
 
 func initHandler(res http.ResponseWriter, req *http.Request) {
@@ -58,7 +63,7 @@ func initHandler(res http.ResponseWriter, req *http.Request) {
 			return
 		}
 		res.Header().Set("Content-Type", "text/html")
-		res.Write(view)
+		resWrite(res, view)
 
 	case http.MethodPost:
 		err := req.ParseForm()
@@ -171,7 +176,7 @@ func configHandler(res http.ResponseWriter, req *http.Request) {
 		}
 
 		res.Header().Set("Content-Type", "text/html")
-		res.Write(adminView)
+		resWrite(res, adminView)
 
 	case http.MethodPost:
 		err := req.ParseForm()
@@ -250,11 +255,11 @@ func configUsersHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
-		res.Write(view)
+		resWrite(res, view)
 
 	case http.MethodPost:
 		// create new user
@@ -267,7 +272,7 @@ func configUsersHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -281,7 +286,7 @@ func configUsersHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -301,7 +306,7 @@ func configUsersHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -324,7 +329,7 @@ func configUsersEditHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -338,7 +343,7 @@ func configUsersEditHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -352,7 +357,7 @@ func configUsersEditHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -367,7 +372,7 @@ func configUsersEditHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -403,7 +408,7 @@ func configUsersEditHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -422,7 +427,7 @@ func configUsersEditHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -457,7 +462,7 @@ func configUsersDeleteHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -471,7 +476,7 @@ func configUsersDeleteHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -485,7 +490,7 @@ func configUsersDeleteHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -499,7 +504,7 @@ func configUsersDeleteHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -513,7 +518,7 @@ func configUsersDeleteHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -546,7 +551,7 @@ func loginHandler(res http.ResponseWriter, req *http.Request) {
 		}
 
 		res.Header().Set("Content-Type", "text/html")
-		res.Write(view)
+		resWrite(res, view)
 
 	case http.MethodPost:
 		if user.IsValid(req) {
@@ -633,11 +638,11 @@ func forgotPasswordHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
-		res.Write(view)
+		resWrite(res, view)
 
 	case http.MethodPost:
 		err := req.ParseMultipartForm(1024 * 1024 * 4) // maxMemory 4MB
@@ -649,7 +654,7 @@ func forgotPasswordHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -693,7 +698,7 @@ func forgotPasswordHandler(res http.ResponseWriter, req *http.Request) {
 There has been an account recovery request made for the user with email:
 %s
 
-To recover your account, please go to http://%s/admin/recover/key and enter 
+To recover your account, please go to https://%s/admin/recover/key and enter 
 this email address along with the following secret key:
 
 %s
@@ -731,7 +736,7 @@ Ponzu CMS at %s
 			return
 		}
 
-		res.Write(errView)
+		resWrite(res, errView)
 		return
 	}
 }
@@ -745,7 +750,7 @@ func recoveryKeyHandler(res http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		res.Write(view)
+		resWrite(res, view)
 
 	case http.MethodPost:
 		err := req.ParseMultipartForm(1024 * 1024 * 4) // maxMemory 4MB
@@ -753,7 +758,7 @@ func recoveryKeyHandler(res http.ResponseWriter, req *http.Request) {
 			log.Println("Error parsing recovery key form:", err)
 
 			res.WriteHeader(http.StatusInternalServerError)
-			res.Write([]byte("Error, please go back and try again."))
+			resWrite(res, []byte("Error, please go back and try again."))
 			return
 		}
 
@@ -766,7 +771,7 @@ func recoveryKeyHandler(res http.ResponseWriter, req *http.Request) {
 			log.Println("Error getting recovery key from database:", err)
 
 			res.WriteHeader(http.StatusInternalServerError)
-			res.Write([]byte("Error, please go back and try again."))
+			resWrite(res, []byte("Error, please go back and try again."))
 			return
 		}
 
@@ -774,7 +779,7 @@ func recoveryKeyHandler(res http.ResponseWriter, req *http.Request) {
 			log.Println("Bad recovery key submitted:", key)
 
 			res.WriteHeader(http.StatusBadRequest)
-			res.Write([]byte("Error, please go back and try again."))
+			resWrite(res, []byte("Error, please go back and try again."))
 			return
 		}
 
@@ -786,7 +791,7 @@ func recoveryKeyHandler(res http.ResponseWriter, req *http.Request) {
 			log.Println("Error finding user by email:", email, err)
 
 			res.WriteHeader(http.StatusInternalServerError)
-			res.Write([]byte("Error, please go back and try again."))
+			resWrite(res, []byte("Error, please go back and try again."))
 			return
 		}
 
@@ -794,7 +799,7 @@ func recoveryKeyHandler(res http.ResponseWriter, req *http.Request) {
 			log.Println("No user found with email:", email)
 
 			res.WriteHeader(http.StatusBadRequest)
-			res.Write([]byte("Error, please go back and try again."))
+			resWrite(res, []byte("Error, please go back and try again."))
 			return
 		}
 
@@ -803,7 +808,7 @@ func recoveryKeyHandler(res http.ResponseWriter, req *http.Request) {
 			log.Println("Error decoding user from database:", err)
 
 			res.WriteHeader(http.StatusInternalServerError)
-			res.Write([]byte("Error, please go back and try again."))
+			resWrite(res, []byte("Error, please go back and try again."))
 			return
 		}
 
@@ -812,7 +817,7 @@ func recoveryKeyHandler(res http.ResponseWriter, req *http.Request) {
 			log.Println(err)
 
 			res.WriteHeader(http.StatusInternalServerError)
-			res.Write([]byte("Error, please go back and try again."))
+			resWrite(res, []byte("Error, please go back and try again."))
 			return
 		}
 
@@ -823,7 +828,7 @@ func recoveryKeyHandler(res http.ResponseWriter, req *http.Request) {
 			log.Println("Error updating user:", err)
 
 			res.WriteHeader(http.StatusInternalServerError)
-			res.Write([]byte("Error, please go back and try again."))
+			resWrite(res, []byte("Error, please go back and try again."))
 			return
 		}
 
@@ -855,7 +860,7 @@ func uploadContentsHandler(res http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		res.Write(errView)
+		resWrite(res, errView)
 		return
 	}
 
@@ -870,7 +875,7 @@ func uploadContentsHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 	}
@@ -886,7 +891,7 @@ func uploadContentsHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 	}
@@ -964,7 +969,7 @@ func uploadContentsHandler(res http.ResponseWriter, req *http.Request) {
 					log.Println(err)
 				}
 
-				res.Write(errView)
+				resWrite(res, errView)
 				return
 			}
 			continue
@@ -981,7 +986,7 @@ func uploadContentsHandler(res http.ResponseWriter, req *http.Request) {
 				log.Println(err)
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 	}
@@ -998,7 +1003,7 @@ func uploadContentsHandler(res http.ResponseWriter, req *http.Request) {
 			log.Println(err)
 		}
 
-		res.Write(errView)
+		resWrite(res, errView)
 		return
 	}
 
@@ -1059,7 +1064,7 @@ func uploadContentsHandler(res http.ResponseWriter, req *http.Request) {
 			log.Println(err)
 		}
 
-		res.Write(errView)
+		resWrite(res, errView)
 		return
 	}
 
@@ -1094,7 +1099,7 @@ func uploadContentsHandler(res http.ResponseWriter, req *http.Request) {
 	}
 
 	res.Header().Set("Content-Type", "text/html")
-	res.Write(adminView)
+	resWrite(res, adminView)
 }
 
 func contentsHandler(res http.ResponseWriter, req *http.Request) {
@@ -1107,7 +1112,7 @@ func contentsHandler(res http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		res.Write(errView)
+		resWrite(res, errView)
 		return
 	}
 
@@ -1125,7 +1130,7 @@ func contentsHandler(res http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		res.Write(errView)
+		resWrite(res, errView)
 		return
 	}
 
@@ -1139,7 +1144,7 @@ func contentsHandler(res http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		res.Write(errView)
+		resWrite(res, errView)
 		return
 	}
 
@@ -1160,7 +1165,7 @@ func contentsHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 	}
@@ -1175,8 +1180,7 @@ func contentsHandler(res http.ResponseWriter, req *http.Request) {
 			if err != nil {
 				return
 			}
-
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 	}
@@ -1194,59 +1198,10 @@ func contentsHandler(res http.ResponseWriter, req *http.Request) {
 		specifier = "__pending"
 	}
 
-	b := &bytes.Buffer{}
 	var total int
 	var posts [][]byte
+	var bufs []*editor.Editable
 
-	html := `<div class="col s9 card">		
-					<div class="card-content">
-					<div class="row">
-					<div class="col s8">
-						<div class="row">
-							<div class="card-title col s7">` + t + ` Items</div>
-							<div class="col s5 input-field inline">
-								<select class="browser-default __ponzu sort-order">
-									<option value="DESC">New to Old</option>
-									<option value="ASC">Old to New</option>
-								</select>
-								<label class="active">Sort:</label>
-							</div>	
-							<script>
-								$(function() {
-									var sort = $('select.__ponzu.sort-order');
-
-									sort.on('change', function() {
-										var path = window.location.pathname;
-										var s = sort.val();
-										var t = getParam('type');
-										var status = getParam('status');
-
-										if (status == "") {
-											status = "public";
-										}
-
-										window.location.replace(path + '?type=' + t + '&order=' + s + '&status=' + status);
-									});
-
-									var order = getParam('order');
-									if (order !== '') {
-										sort.val(order);
-									}
-									
-								});
-							</script>
-						</div>
-					</div>
-					<form class="col s4" action="/admin/contents/search" method="get">
-						<div class="input-field post-search inline">
-							<label class="active">Search:</label>
-							<i class="right material-icons search-icon">search</i>
-							<input class="search" name="q" type="text" placeholder="Within all ` + t + ` fields" class="search"/>
-							<input type="hidden" name="type" value="` + t + `" />
-							<input type="hidden" name="status" value="` + status + `" />
-						</div>
-                    </form>	
-					</div>`
 	if hasExt {
 		if status == "" {
 			q.Set("status", "public")
@@ -1256,158 +1211,43 @@ func contentsHandler(res http.ResponseWriter, req *http.Request) {
 		q.Del("count")
 		q.Del("offset")
 
-		q.Set("status", "public")
-		publicURL := req.URL.Path + "?" + q.Encode()
-
-		q.Set("status", "pending")
-		pendingURL := req.URL.Path + "?" + q.Encode()
-
 		switch status {
 		case "public", "":
 			// get __sorted posts of type t from the db
 			total, posts = db.Query(t+specifier, opts)
-
-			html += `<div class="row externalable">
-					<span class="description">Status:</span> 
-					<span class="active">Public</span>
-					&nbsp;&vert;&nbsp;
-					<a href="` + pendingURL + `">Pending</a>
-				</div>`
-
 			for i := range posts {
-				err := json.Unmarshal(posts[i], &p)
+				err = json.Unmarshal(posts[i], &p)
 				if err != nil {
 					log.Println("Error unmarshal json into", t, err, string(posts[i]))
-
-					post := `<li class="col s12">Error decoding data. Possible file corruption.</li>`
-					_, err := b.Write([]byte(post))
-					if err != nil {
-						log.Println(err)
-
-						res.WriteHeader(http.StatusInternalServerError)
-						errView, err := Error500()
-						if err != nil {
-							log.Println(err)
-						}
-
-						res.Write(errView)
-						return
-					}
-
 					continue
 				}
-
-				post := adminPostListItem(p, t, status)
-				_, err = b.Write(post)
-				if err != nil {
-					log.Println(err)
-
-					res.WriteHeader(http.StatusInternalServerError)
-					errView, err := Error500()
-					if err != nil {
-						log.Println(err)
-					}
-
-					res.Write(errView)
-					return
-				}
+				bufs = append(bufs, &p)
 			}
-
 		case "pending":
 			// get __pending posts of type t from the db
 			total, posts = db.Query(t+"__pending", opts)
-
-			html += `<div class="row externalable">
-					<span class="description">Status:</span> 
-					<a href="` + publicURL + `">Public</a>
-					&nbsp;&vert;&nbsp;
-					<span class="active">Pending</span>					
-				</div>`
-
 			for i := len(posts) - 1; i >= 0; i-- {
-				err := json.Unmarshal(posts[i], &p)
+				err = json.Unmarshal(posts[i], &p)
 				if err != nil {
 					log.Println("Error unmarshal json into", t, err, string(posts[i]))
-
-					post := `<li class="col s12">Error decoding data. Possible file corruption.</li>`
-					_, err := b.Write([]byte(post))
-					if err != nil {
-						log.Println(err)
-
-						res.WriteHeader(http.StatusInternalServerError)
-						errView, err := Error500()
-						if err != nil {
-							log.Println(err)
-						}
-
-						res.Write(errView)
-						return
-					}
 					continue
 				}
-
-				post := adminPostListItem(p, t, status)
-				_, err = b.Write(post)
-				if err != nil {
-					log.Println(err)
-
-					res.WriteHeader(http.StatusInternalServerError)
-					errView, err := Error500()
-					if err != nil {
-						log.Println(err)
-					}
-
-					res.Write(errView)
-					return
-				}
+				bufs = append(bufs, &p)
 			}
 		}
-
 	} else {
 		total, posts = db.Query(t+specifier, opts)
-
 		for i := range posts {
-			err := json.Unmarshal(posts[i], &p)
+			err = json.Unmarshal(posts[i], &p)
 			if err != nil {
 				log.Println("Error unmarshal json into", t, err, string(posts[i]))
-
-				post := `<li class="col s12">Error decoding data. Possible file corruption.</li>`
-				_, err := b.Write([]byte(post))
-				if err != nil {
-					log.Println(err)
-
-					res.WriteHeader(http.StatusInternalServerError)
-					errView, err := Error500()
-					if err != nil {
-						log.Println(err)
-					}
-
-					res.Write(errView)
-					return
-				}
 				continue
 			}
-
-			post := adminPostListItem(p, t, status)
-			_, err = b.Write(post)
-			if err != nil {
-				log.Println(err)
-
-				res.WriteHeader(http.StatusInternalServerError)
-				errView, err := Error500()
-				if err != nil {
-					log.Println(err)
-				}
-
-				res.Write(errView)
-				return
-			}
+			bufs = append(bufs, &p)
 		}
+		err = nil
 	}
 
-	html += `<ul class="posts row">`
-
-	_, err = b.Write([]byte(`</ul>`))
 	if err != nil {
 		log.Println(err)
 
@@ -1417,7 +1257,7 @@ func contentsHandler(res http.ResponseWriter, req *http.Request) {
 			log.Println(err)
 		}
 
-		res.Write(errView)
+		resWrite(res, errView)
 		return
 	}
 
@@ -1448,27 +1288,6 @@ func contentsHandler(res http.ResponseWriter, req *http.Request) {
 		end = total
 	}
 
-	pagination := fmt.Sprintf(`
-	<ul class="pagination row">
-		<li class="col s2 waves-effect %s"><a href="%s"><i class="material-icons">chevron_left</i></a></li>
-		<li class="col s8">%d to %d of %d</li>
-		<li class="col s2 waves-effect %s"><a href="%s"><i class="material-icons">chevron_right</i></a></li>
-	</ul>
-	`, prevStatus, prevURL, start, end, total, nextStatus, nextURL)
-
-	// show indicator that a collection of items will be listed implicitly, but
-	// that none are created yet
-	if total < 1 {
-		pagination = `
-		<ul class="pagination row">
-			<li class="col s2 waves-effect disabled"><a href="#"><i class="material-icons">chevron_left</i></a></li>
-			<li class="col s8">0 to 0 of 0</li>
-			<li class="col s2 waves-effect disabled"><a href="#"><i class="material-icons">chevron_right</i></a></li>
-		</ul>
-		`
-	}
-
-	_, err = b.Write([]byte(pagination + `</div></div>`))
 	if err != nil {
 		log.Println(err)
 
@@ -1478,46 +1297,34 @@ func contentsHandler(res http.ResponseWriter, req *http.Request) {
 			log.Println(err)
 		}
 
-		res.Write(errView)
+		resWrite(res, errView)
 		return
 	}
 
-	script := `
-	<script>
-		$(function() {
-			var del = $('.quick-delete-post.__ponzu span');
-			del.on('click', function(e) {
-				if (confirm("[Ponzu] Please confirm:\n\nAre you sure you want to delete this post?\nThis cannot be undone.")) {
-					$(e.target).parent().submit();
-				}
-			});
-		});
+	CSVFormat := false
+	_, CSVFormat = pt.(format.CSVFormattable)
 
-		// disable link from being clicked if parent is 'disabled'
-		$(function() {
-			$('ul.pagination li.disabled a').on('click', function(e) {
-				e.preventDefault();
-			});
-		});
-	</script>
-	`
-
-	btn := `<div class="col s3">
-		<a href="/admin/edit?type=` + t + `" class="btn new-post waves-effect waves-light">
-			New ` + t + `
-		</a>`
-
-	if _, ok := pt.(format.CSVFormattable); ok {
-		btn += `<br/>
-				<a href="/admin/contents/export?type=` + t + `&format=csv" class="green darken-4 btn export-post waves-effect waves-light">
-					<i class="material-icons left">system_update_alt</i>
-					CSV
-				</a>`
+	data := map[string]interface{}{
+		"urlPath": req.URL.Path,
+		"csv":     CSVFormat,
+		"type":    t,
+		"status":  status,
+		"posts":   bufs,
+		"total":   len(bufs),
+		"pagination": map[string]interface{}{
+			"prevStatus": prevStatus,
+			"prevURL":    prevURL,
+			"start":      start,
+			"end":        end,
+			"total":      total,
+			"nextStatus": nextStatus,
+			"nextURL":    nextURL,
+		},
 	}
-
-	html += b.String() + script + btn + `</div></div>`
-
-	adminView, err := Admin([]byte(html))
+	for i, v := range GetAdminData() {
+		data[i] = v
+	}
+	adminView, err := twig.Twig.Render("contents/list.html.twig", data)
 	if err != nil {
 		log.Println(err)
 		res.WriteHeader(http.StatusInternalServerError)
@@ -1525,7 +1332,7 @@ func contentsHandler(res http.ResponseWriter, req *http.Request) {
 	}
 
 	res.Header().Set("Content-Type", "text/html")
-	res.Write(adminView)
+	resWrite(res, adminView)
 }
 
 // adminPostListItem is a helper to create the li containing a post.
@@ -1547,8 +1354,8 @@ func adminPostListItem(e editor.Editable, typeName, status string) []byte {
 	}
 
 	// use sort to get other info to display in admin UI post list
-	tsTime := time.Unix(int64(s.Time()/1000), 0)
-	upTime := time.Unix(int64(s.Touch()/1000), 0)
+	tsTime := time.Unix(s.Time()/1000, 0)
+	upTime := time.Unix(s.Touch()/1000, 0)
 	updatedTime := upTime.Format("01/02/06 03:04 PM")
 	publishTime := tsTime.Format("01/02/06")
 
@@ -1591,7 +1398,7 @@ func approveContentHandler(res http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		res.Write(errView)
+		resWrite(res, errView)
 		return
 	}
 
@@ -1603,7 +1410,7 @@ func approveContentHandler(res http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		res.Write(errView)
+		resWrite(res, errView)
 		return
 	}
 
@@ -1626,7 +1433,7 @@ func approveContentHandler(res http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		res.Write(errView)
+		resWrite(res, errView)
 		return
 	}
 
@@ -1640,7 +1447,7 @@ func approveContentHandler(res http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		res.Write(errView)
+		resWrite(res, errView)
 		return
 	}
 
@@ -1656,7 +1463,7 @@ func approveContentHandler(res http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		res.Write(errView)
+		resWrite(res, errView)
 		return
 	}
 
@@ -1666,7 +1473,7 @@ func approveContentHandler(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	// call its Approve method
+	// call its Approval method
 	err = m.Approve(res, req)
 	if err != nil {
 		log.Println("Error running Approve method in approveContentHandler for:", t, err)
@@ -1695,7 +1502,7 @@ func approveContentHandler(res http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		res.Write(errView)
+		resWrite(res, errView)
 		return
 	}
 
@@ -1732,7 +1539,7 @@ func editHandler(res http.ResponseWriter, req *http.Request) {
 
 		contentType, ok := item.Types[t]
 		if !ok {
-			fmt.Fprintf(res, item.ErrTypeNotRegistered.Error(), t)
+			_, _ = fmt.Fprintf(res, item.ErrTypeNotRegistered.Error(), t)
 			return
 		}
 		post := contentType()
@@ -1751,7 +1558,7 @@ func editHandler(res http.ResponseWriter, req *http.Request) {
 					return
 				}
 
-				res.Write(errView)
+				resWrite(res, errView)
 				return
 			}
 
@@ -1762,7 +1569,7 @@ func editHandler(res http.ResponseWriter, req *http.Request) {
 					return
 				}
 
-				res.Write(errView)
+				resWrite(res, errView)
 				return
 			}
 
@@ -1775,17 +1582,17 @@ func editHandler(res http.ResponseWriter, req *http.Request) {
 					return
 				}
 
-				res.Write(errView)
+				resWrite(res, errView)
 				return
 			}
 		} else {
-			item, ok := post.(item.Identifiable)
+			i, ok := post.(item.Identifiable)
 			if !ok {
 				log.Println("Content type", t, "doesn't implement item.Identifiable")
 				return
 			}
 
-			item.SetItemID(-1)
+			i.SetItemID(-1)
 		}
 
 		m, err := manager.Manage(post.(editor.Editable), t)
@@ -1797,19 +1604,25 @@ func editHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
-		adminView, err := Admin(m)
 		if err != nil {
 			log.Println(err)
 			res.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 
+		data := map[string]interface{}{
+			"view": m,
+		}
+		for i, v := range GetAdminData() {
+			data[i] = v
+		}
+		adminView, err := twig.Twig.Render("contents/edit.html.twig", data)
 		res.Header().Set("Content-Type", "text/html")
-		res.Write(adminView)
+		resWrite(res, adminView)
 
 	case http.MethodPost:
 		err := req.ParseMultipartForm(1024 * 1024 * 4) // maxMemory 4MB
@@ -1821,7 +1634,7 @@ func editHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -1849,7 +1662,7 @@ func editHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -1866,8 +1679,8 @@ func editHandler(res http.ResponseWriter, req *http.Request) {
 				fo := strings.Split(k, ".")
 
 				// put the order and the field value into map
-				field := string(fo[0])
-				order := string(fo[1])
+				field := fo[0]
+				order := fo[1]
 				if len(fieldOrderValue[field]) == 0 {
 					fieldOrderValue[field] = make(map[string][]string)
 				}
@@ -1919,7 +1732,7 @@ func editHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -1933,7 +1746,7 @@ func editHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -1950,7 +1763,7 @@ func editHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -1983,7 +1796,7 @@ func editHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -2043,7 +1856,7 @@ func deleteHandler(res http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		res.Write(errView)
+		resWrite(res, errView)
 		return
 	}
 
@@ -2071,7 +1884,7 @@ func deleteHandler(res http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		res.Write(errView)
+		resWrite(res, errView)
 		return
 	}
 
@@ -2085,7 +1898,7 @@ func deleteHandler(res http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		res.Write(errView)
+		resWrite(res, errView)
 		return
 	}
 
@@ -2168,14 +1981,14 @@ func deleteUploadHandler(res http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		res.Write(errView)
+		resWrite(res, errView)
 		return
 	}
 
 	id := req.FormValue("id")
 	t := "__uploads"
 
-	if id == "" || t == "" {
+	if id == "" {
 		res.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -2190,7 +2003,7 @@ func deleteUploadHandler(res http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		res.Write(errView)
+		resWrite(res, errView)
 		return
 	}
 
@@ -2247,7 +2060,7 @@ func editUploadHandler(res http.ResponseWriter, req *http.Request) {
 					return
 				}
 
-				res.Write(errView)
+				resWrite(res, errView)
 				return
 			}
 
@@ -2258,7 +2071,7 @@ func editUploadHandler(res http.ResponseWriter, req *http.Request) {
 					return
 				}
 
-				res.Write(errView)
+				resWrite(res, errView)
 				return
 			}
 
@@ -2271,7 +2084,7 @@ func editUploadHandler(res http.ResponseWriter, req *http.Request) {
 					return
 				}
 
-				res.Write(errView)
+				resWrite(res, errView)
 				return
 			}
 		} else {
@@ -2293,7 +2106,7 @@ func editUploadHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -2305,7 +2118,7 @@ func editUploadHandler(res http.ResponseWriter, req *http.Request) {
 		}
 
 		res.Header().Set("Content-Type", "text/html")
-		res.Write(adminView)
+		_, _ = res.Write(adminView)
 
 	case http.MethodPost:
 		err := req.ParseMultipartForm(1024 * 1024 * 4) // maxMemory 4MB
@@ -2317,7 +2130,7 @@ func editUploadHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -2346,7 +2159,7 @@ func editUploadHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -2366,7 +2179,7 @@ func editUploadHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -2384,8 +2197,8 @@ func editUploadHandler(res http.ResponseWriter, req *http.Request) {
 				fo := strings.Split(k, ".")
 
 				// put the order and the field value into map
-				field := string(fo[0])
-				order := string(fo[1])
+				field := fo[0]
+				order := fo[1]
 				fieldOrderValue[field] = ordVal
 
 				// orderValue is 0:[?type=Thing&id=1]
@@ -2441,7 +2254,7 @@ func editUploadHandler(res http.ResponseWriter, req *http.Request) {
 		}
 
 		res.Header().Set("Content-Type", "application/json")
-		res.Write([]byte(`{"data": [{"url": "` + urlPaths["file"] + `"}]}`))
+		resWrite(res, []byte(`{"data": [{"url": "`+urlPaths["file"]+`"}]}`))
 	default:
 		res.WriteHeader(http.StatusMethodNotAllowed)
 		return
@@ -2463,18 +2276,18 @@ func editUploadHandler(res http.ResponseWriter, req *http.Request) {
 	}
 
 	res.Header().Set("Content-Type", "application/json")
-	res.Write([]byte(`{"data": [{"url": "` + urlPaths["file"] + `"}]}`))
+	resWrite(res, []byte(`{"data": [{"url": "` + urlPaths["file"] + `"}]}`))
 }
 */
 
 func searchHandler(res http.ResponseWriter, req *http.Request) {
-	q := req.URL.Query()
-	t := q.Get("type")
-	search := q.Get("q")
-	status := q.Get("status")
+	query := req.URL.Query()
+	t := query.Get("type")
+	q := query.Get("q")
+	status := query.Get("status")
 	var specifier string
 
-	if t == "" || search == "" {
+	if t == "" || q == "" {
 		http.Redirect(res, req, req.URL.Scheme+req.URL.Host+"/admin", http.StatusFound)
 		return
 	}
@@ -2513,7 +2326,7 @@ func searchHandler(res http.ResponseWriter, req *http.Request) {
 
 	for i := range posts {
 		// skip posts that don't have any matching search criteria
-		match := strings.ToLower(search)
+		match := strings.ToLower(q)
 		all := strings.ToLower(string(posts[i]))
 		if !strings.Contains(all, match) {
 			continue
@@ -2534,14 +2347,14 @@ func searchHandler(res http.ResponseWriter, req *http.Request) {
 					log.Println(err)
 				}
 
-				res.Write(errView)
+				resWrite(res, errView)
 				return
 			}
 			continue
 		}
 
 		post := adminPostListItem(p, t, status)
-		_, err = b.Write([]byte(post))
+		_, err = b.Write(post)
 		if err != nil {
 			log.Println(err)
 
@@ -2551,7 +2364,7 @@ func searchHandler(res http.ResponseWriter, req *http.Request) {
 				log.Println(err)
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 	}
@@ -2566,7 +2379,7 @@ func searchHandler(res http.ResponseWriter, req *http.Request) {
 			log.Println(err)
 		}
 
-		res.Write(errView)
+		resWrite(res, errView)
 		return
 	}
 
@@ -2605,16 +2418,16 @@ func searchHandler(res http.ResponseWriter, req *http.Request) {
 	}
 
 	res.Header().Set("Content-Type", "text/html")
-	res.Write(adminView)
+	_, _ = res.Write(adminView)
 }
 
 func uploadSearchHandler(res http.ResponseWriter, req *http.Request) {
-	q := req.URL.Query()
+	urlQuery := req.URL.Query()
 	t := "__uploads"
-	search := q.Get("q")
-	status := q.Get("status")
+	q := urlQuery.Get("q")
+	status := urlQuery.Get("status")
 
-	if t == "" || search == "" {
+	if q == "" {
 		http.Redirect(res, req, req.URL.Scheme+req.URL.Host+"/admin", http.StatusFound)
 		return
 	}
@@ -2640,7 +2453,7 @@ func uploadSearchHandler(res http.ResponseWriter, req *http.Request) {
 
 	for i := range posts {
 		// skip posts that don't have any matching search criteria
-		match := strings.ToLower(search)
+		match := strings.ToLower(q)
 		all := strings.ToLower(string(posts[i]))
 		if !strings.Contains(all, match) {
 			continue
@@ -2661,14 +2474,14 @@ func uploadSearchHandler(res http.ResponseWriter, req *http.Request) {
 					log.Println(err)
 				}
 
-				res.Write(errView)
+				resWrite(res, errView)
 				return
 			}
 			continue
 		}
 
 		post := adminPostListItem(p, t, status)
-		_, err = b.Write([]byte(post))
+		_, err = b.Write(post)
 		if err != nil {
 			log.Println(err)
 
@@ -2678,7 +2491,7 @@ func uploadSearchHandler(res http.ResponseWriter, req *http.Request) {
 				log.Println(err)
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 	}
@@ -2693,7 +2506,7 @@ func uploadSearchHandler(res http.ResponseWriter, req *http.Request) {
 			log.Println(err)
 		}
 
-		res.Write(errView)
+		resWrite(res, errView)
 		return
 	}
 
@@ -2708,7 +2521,7 @@ func uploadSearchHandler(res http.ResponseWriter, req *http.Request) {
 	}
 
 	res.Header().Set("Content-Type", "text/html")
-	res.Write(adminView)
+	_, _ = res.Write(adminView)
 }
 
 func addonsHandler(res http.ResponseWriter, req *http.Request) {
@@ -2729,7 +2542,7 @@ func addonsHandler(res http.ResponseWriter, req *http.Request) {
 					return
 				}
 
-				res.Write(errView)
+				resWrite(res, errView)
 				return
 			}
 		}
@@ -2752,7 +2565,7 @@ func addonsHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -2766,7 +2579,7 @@ func addonsHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -2780,7 +2593,7 @@ func addonsHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -2795,7 +2608,7 @@ func addonsHandler(res http.ResponseWriter, req *http.Request) {
 					return
 				}
 
-				res.Write(errView)
+				resWrite(res, errView)
 				return
 			}
 		}
@@ -2810,11 +2623,11 @@ func addonsHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
-		res.Write(view)
+		resWrite(res, view)
 
 	case http.MethodPost:
 		err := req.ParseMultipartForm(1024 * 1024 * 4) // maxMemory 4MB
@@ -2826,7 +2639,7 @@ func addonsHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -2843,7 +2656,7 @@ func addonsHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -2856,7 +2669,7 @@ func addonsHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 		if err != nil {
@@ -2867,7 +2680,7 @@ func addonsHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -2881,7 +2694,7 @@ func addonsHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -2902,7 +2715,7 @@ func addonsHandler(res http.ResponseWriter, req *http.Request) {
 					return
 				}
 
-				res.Write(errView)
+				resWrite(res, errView)
 				return
 			}
 
@@ -2915,7 +2728,7 @@ func addonsHandler(res http.ResponseWriter, req *http.Request) {
 					return
 				}
 
-				res.Write(errView)
+				resWrite(res, errView)
 				return
 			}
 
@@ -2928,7 +2741,7 @@ func addonsHandler(res http.ResponseWriter, req *http.Request) {
 					return
 				}
 
-				res.Write(errView)
+				resWrite(res, errView)
 				return
 			}
 
@@ -2942,7 +2755,7 @@ func addonsHandler(res http.ResponseWriter, req *http.Request) {
 					return
 				}
 
-				res.Write(errView)
+				resWrite(res, errView)
 				return
 			}
 
@@ -2955,7 +2768,7 @@ func addonsHandler(res http.ResponseWriter, req *http.Request) {
 					return
 				}
 
-				res.Write(errView)
+				resWrite(res, errView)
 				return
 			}
 
@@ -2968,7 +2781,7 @@ func addonsHandler(res http.ResponseWriter, req *http.Request) {
 					return
 				}
 
-				res.Write(errView)
+				resWrite(res, errView)
 				return
 			}
 		default:
@@ -2978,7 +2791,7 @@ func addonsHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -2992,7 +2805,7 @@ func addonsHandler(res http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		res.Write(errView)
+		resWrite(res, errView)
 		return
 	}
 }
@@ -3011,7 +2824,7 @@ func addonHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -3024,7 +2837,7 @@ func addonHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -3037,7 +2850,7 @@ func addonHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -3049,7 +2862,7 @@ func addonHandler(res http.ResponseWriter, req *http.Request) {
 		}
 
 		res.Header().Set("Content-Type", "text/html")
-		res.Write(addonView)
+		_, _ = res.Write(addonView)
 
 	case http.MethodPost:
 		// save req.Form
@@ -3062,7 +2875,7 @@ func addonHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -3078,7 +2891,7 @@ func addonHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -3101,7 +2914,7 @@ func addonHandler(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			res.Write(errView)
+			resWrite(res, errView)
 			return
 		}
 
@@ -3115,7 +2928,7 @@ func addonHandler(res http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		res.Write(errView)
+		resWrite(res, errView)
 		return
 	}
 }

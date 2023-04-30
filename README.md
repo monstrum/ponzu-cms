@@ -294,6 +294,55 @@ $ ponzu new --dev --fork=github.com/nilslice/ponzu /path/to/new/project
 ```
 
 
+## Development
+Build ponzu binary
+```bash
+go build github.com/monstrum/ponzu-cms/cmd/ponzu
+```
+
+Generate content sample
+```bash
+$ ./ponzu gen content song title:"string" artist:"string" rating:"int" opinion:"string":richtext spotify_url:"string"
+```
+
+Build cms and run
+```bash
+$ ./ponzu build & ./ponzu run --port 8082
+```
+
+Build run
+```bash
+$ ./ponzu-server run --port 8082
+```
+
+### Troubleshooting
+Fix permission
+```bash
+$ chmod +w -R $GOPATH/pkg/mod/github.com/monstrum/ponzu-cms@v0.11.0
+```
+
+Get get with branch is not working, changes is not reflect to the gopath.
+To continue to working on the repository itself and see the changes, use the solution below.
+```bash
+$ # Symlink on repository, to the modules in gopath
+$ # in this way, it should be working.
+$
+$ ln -s $PWD $GOPATH/pkg/mod/github.com/monstrum/ponzu-cms@v0.11.0
+```
+In this repository, I am also using different tools such as:  
+Refresh, allow hot reload on build, whenever the files changes.
+- refresh.yaml change it to fit your needs.
+```bash
+$ refresh run github.com/monstrum/ponzu-cms/cmd/ponzu
+```
+I am also using stick templating engine, as I used to work with twig on symfony.
+The library doesn't support all the features offered by twig. But, it is more than enough for my use case.
+I remove the inline templating in the admin, this allows us to modify the files at ease.
+and keep the handlers clean.
+
+### Todo
+- replace static css with scss
+
 ## Credits
 - [golang.org/x/text/unicode/norm](https://golang.org/x/text/unicode/norm)
 - [golang.org/x/text/transform](https://golang.org/x/text/transform)

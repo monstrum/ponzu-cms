@@ -3,48 +3,58 @@
 {% block body %}
     <div class="container-fluid">
         <div class="row">
-            <div class="left-nav col-2 s3">
+            <div class="left-nav col-2">
                 {% block sidebar %}
-                    <div class="card-content collection">
-                        <div class="card-title">Content</div>
-                        <ul class="row collection-item">
-                            {% for type in Types %}
+                    <div class="card">
+                        <div class="card-title">
+                            Content
+                        </div>
+                        <div class="card-body collection">
+                            <ul class="collection-item">
+                                {% for type, _ in Types %}
+                                    <li>
+                                        <a href="/admin/contents?type={{ type }}">
+                                            <i class="tiny left material-icons">playlist_add</i>{{ type }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">
+                            System
+                        </div>
+                        <div class="card-body collection">
+                            <ul class="collection-item">
                                 <li>
-                                    <a class="col s12" href="/admin/contents?type={{ type }}">
-                                        <i class="tiny left material-icons">playlist_add</i>{{ type }}
+                                    <a href="/admin/configure">
+                                        <i class="tiny left material-icons">settings</i>Configuration
                                     </a>
                                 </li>
-                            {% endfor %}
-                        </ul>
-                        <div class="card-title">System</div>
-                        <ul class="row collection-item">
-                            <li>
-                                <a class="col s12" href="/admin/configure">
-                                    <i class="tiny left material-icons">settings</i>Configuration
-                                </a>
-                            </li>
-                            <li>
-                                <a class="col s12" href="/admin/configure/users">
-                                    <i class="tiny left material-icons">supervisor_account</i>Admin Users
-                                </a>
-                            </li>
-                            <li>
-                                <a class="col s12" href="/admin/uploads">
-                                    <i class="tiny left material-icons">swap_vert</i>Uploads
-                                </a>
-                            </li>
-                            <li>
-                                <a class="col s12" href="/admin/addons">
-                                    <i class="tiny left material-icons">settings_input_svideo</i>Addons
-                                </a>
-                            </li>
-                        </ul>
+                                <li>
+                                    <a href="/admin/configure/users">
+                                        <i class="tiny left material-icons">supervisor_account</i>Admin Users
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/admin/uploads">
+                                        <i class="tiny left material-icons">swap_vert</i>Uploads
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/admin/addons">
+                                        <i class="tiny left material-icons">settings_input_svideo</i>Addons
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 {% endblock %}
             </div>
             {% block content %}
-                <div class="subview col s9">
-                    {% block sub_content %}{% endblock %}
+                <div class="subview col-10">
+                    {% block sub_content %}{{ Subview }}{% endblock %}
                 </div>
             {% endblock %}
         </div>

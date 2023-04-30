@@ -124,19 +124,19 @@ type manager struct {
 
 // Manage ...
 func Manage(e editor.Editable, typeName string) ([]byte, error) {
-	v, err := e.MarshalEditor()
-	if err != nil {
-		return nil, fmt.Errorf("Couldn't marshal editor for content %s. %s", typeName, err.Error())
-	}
-
 	i, ok := e.(item.Identifiable)
 	if !ok {
-		return nil, fmt.Errorf("Content type %s does not implement item.Identifiable.", typeName)
+		return nil, fmt.Errorf("content type %s does not implement item.Identifiable", typeName)
 	}
 
 	s, ok := e.(item.Sluggable)
 	if !ok {
-		return nil, fmt.Errorf("Content type %s does not implement item.Sluggable.", typeName)
+		return nil, fmt.Errorf("content type %s does not implement item.Sluggable", typeName)
+	}
+
+	v, err := e.MarshalEditor()
+	if err != nil {
+		return nil, fmt.Errorf("couldn't marshal editor for content %s. %s", typeName, err.Error())
 	}
 
 	m := manager{

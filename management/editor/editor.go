@@ -17,7 +17,7 @@ type Editable interface {
 // the public-facing API
 type Mergeable interface {
 	// Approve copies an external post to the internal collection and triggers
-	// a re-sort of its content type posts
+	// a re sort of its content type posts
 	Approve(http.ResponseWriter, *http.Request) error
 }
 
@@ -32,20 +32,23 @@ type Field struct {
 	View []byte
 }
 
-// Form takes editable content and any number of Field funcs to describe the edit
+// Form takes editable content and any number of Field func to describe the edit
 // page for any content struct added by a user
 func Form(post Editable, fields ...Field) ([]byte, error) {
 	editor := &Editor{}
 
 	editor.ViewBuf = &bytes.Buffer{}
-	_, err := editor.ViewBuf.WriteString(`<table><tbody class="row"><tr class="col s8 editor-fields"><td class="col s12">`)
+	_, err := editor.ViewBuf.WriteString(``)
 	if err != nil {
 		log.Println("Error writing HTML string to editor Form buffer")
 		return nil, err
 	}
 
 	for _, f := range fields {
-		addFieldToEditorView(editor, f)
+		err = addFieldToEditorView(editor, f)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	_, err = editor.ViewBuf.WriteString(`</td></tr>`)
@@ -56,61 +59,6 @@ func Form(post Editable, fields ...Field) ([]byte, error) {
 
 	// content items with Item embedded have some default fields we need to render
 	_, err = editor.ViewBuf.WriteString(`<tr class="col s4 default-fields"><td class="col s12">`)
-	if err != nil {
-		log.Println("Error writing HTML string to editor Form buffer")
-		return nil, err
-	}
-
-	publishTime := `
-<div class="row content-only __ponzu">
-	<div class="input-field col s6">
-		<label class="active">MM</label>
-		<select class="month __ponzu browser-default">
-			<option value="1">Jan - 01</option>
-			<option value="2">Feb - 02</option>
-			<option value="3">Mar - 03</option>
-			<option value="4">Apr - 04</option>
-			<option value="5">May - 05</option>
-			<option value="6">Jun - 06</option>
-			<option value="7">Jul - 07</option>
-			<option value="8">Aug - 08</option>
-			<option value="9">Sep - 09</option>
-			<option value="10">Oct - 10</option>
-			<option value="11">Nov - 11</option>
-			<option value="12">Dec - 12</option>
-		</select>
-	</div>
-	<div class="input-field col s2">
-		<label class="active">DD</label>
-		<input value="" class="day __ponzu" maxlength="2" type="text" placeholder="DD" />
-	</div>
-	<div class="input-field col s4">
-		<label class="active">YYYY</label>
-		<input value="" class="year __ponzu" maxlength="4" type="text" placeholder="YYYY" />
-	</div>
-</div>
-
-<div class="row content-only __ponzu">
-	<div class="input-field col s3">
-		<label class="active">HH</label>
-		<input value="" class="hour __ponzu" maxlength="2" type="text" placeholder="HH" />
-	</div>
-	<div class="col s1">:</div>
-	<div class="input-field col s3">
-		<label class="active">MM</label>
-		<input value="" class="minute __ponzu" maxlength="2" type="text" placeholder="MM" />
-	</div>
-	<div class="input-field col s4">
-		<label class="active">Period</label>
-		<select class="period __ponzu browser-default">
-			<option value="AM">AM</option>
-			<option value="PM">PM</option>
-		</select>
-	</div>
-</div>
-	`
-
-	_, err = editor.ViewBuf.WriteString(publishTime)
 	if err != nil {
 		log.Println("Error writing HTML string to editor Form buffer")
 		return nil, err

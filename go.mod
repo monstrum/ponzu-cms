@@ -12,6 +12,7 @@ require (
 	github.com/spf13/cobra v1.5.0
 	github.com/tidwall/gjson v1.14.3
 	github.com/tidwall/sjson v1.2.5
+	github.com/tyler-sommer/stick v1.0.4
 	golang.org/x/crypto v0.0.0-20220829220503-c86fa9a7ed90
 	golang.org/x/text v0.3.7
 )
@@ -34,6 +35,7 @@ require (
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/mschoch/smat v0.2.0 // indirect
 	github.com/philhofer/fwd v1.0.0 // indirect
+	github.com/shopspring/decimal v0.0.0-20180709203117-cd690d0c9e24 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/steveyen/gtreap v0.1.0 // indirect
 	github.com/tidwall/match v1.1.1 // indirect

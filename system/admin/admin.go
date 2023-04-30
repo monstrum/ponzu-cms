@@ -82,6 +82,22 @@ func GetDefaultData() map[string]interface{} {
 	}
 }
 
+func GetAdminData() map[string]interface{} {
+	cfg, err := db.Config("name")
+	if err != nil {
+		return map[string]interface{}{}
+	}
+
+	if cfg == nil {
+		cfg = []byte("")
+	}
+
+	return map[string]interface{}{
+		"Logo":  string(cfg),
+		"Types": item.Types,
+	}
+}
+
 // Admin ...
 func Admin(view []byte) (_ []byte, err error) {
 	cfg, err := db.Config("name")
@@ -243,6 +259,9 @@ func Dashboard() ([]byte, error) {
 	data, err := analytics.ChartData()
 	if err != nil {
 		return nil, err
+	}
+	for k, v := range GetAdminData() {
+		data[k] = v
 	}
 	return twig.Twig.Render("analytics.html.twig", data)
 }

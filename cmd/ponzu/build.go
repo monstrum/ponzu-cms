@@ -11,7 +11,7 @@ import (
 func buildPonzuServer() error {
 	// copy all ./content files to internal vendor directory
 	src := "content"
-	dst := filepath.Join(os.Getenv("GOPATH"), "pkg", "mod", "github.com", "monstrum", "ponzu-cms", "content")
+	dst := filepath.Join(os.Getenv("GOPATH"), "pkg", "mod", "github.com", "monstrum", "ponzu-cms@v0.11.0", "content")
 	err := emptyDir(dst)
 	if err != nil {
 		return err
@@ -23,7 +23,7 @@ func buildPonzuServer() error {
 
 	// copy all ./addons files & dirs to internal vendor directory
 	src = "addons"
-	dst = filepath.Join(os.Getenv("GOPATH"), "pkg", "mod", "github.com", "monstrum", "ponzu-cms", "cmd", "ponzu")
+	dst = filepath.Join(os.Getenv("GOPATH"), "pkg", "mod", "github.com", "monstrum", "ponzu-cms@v0.11.0", "cmd", "ponzu")
 	err = copyFilesWarnConflicts(src, dst, nil)
 	if err != nil {
 		return err
